@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>P.A.I.S.A.</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{% static 'images/mkr_Ud5_icon.ico' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/style.css' %}"/>
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <div class="navbar-wrapper">
+      <div class="navbar-inverse" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <!-- Nav Starts -->
+          <div class="navbar-collapse  collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/index">Home</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li class="active"><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div>
+          <!-- #Nav Ends -->
+        </div>
+      </div>
+    </div>
+    <!-- #Header Ends -->
+    <div class="container">
+      <div class="spacer">
+        <h2>Contact Us</h2>
+        <div class="row contact">
+          <div class="col-lg-6 col-sm-6 ">
+            <input type="text" class="form-control" placeholder="Full Name">
+            <input type="text" class="form-control" placeholder="Email Address">
+            <input type="text" class="form-control" placeholder="Contact Number">
+            <textarea rows="6" class="form-control" placeholder="Message"></textarea>
+            <button type="submit" class="btn btn-success" name="Submit">Send Message</button>
+          </div>
+          <div class="col-lg-6 col-sm-6 ">
+            <div class="well">
+              <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.081274380191!2d-73.98876768493597!3d40.69420764664135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a4a4d8396f3%3A0xda9b313d596491f7!2sNYU+Tandon+School+of+Engineering!5e0!3m2!1sen!2sus!4v1494366706946">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-footer">
+      <div class="container">
+        <p class="copyright">Copyright 2017. All rights reserved. </p>
+      </div>
+    </div>
+  </body>
+</html>

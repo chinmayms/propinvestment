@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>P.A.I.S.A.</title>
+        <meta charset="UTF-8" />
+        <link rel="shortcut icon" href="{% static 'images/mkr_Ud5_icon.ico' %}" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/style.css' %}"/>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <!-- Header Starts -->
+        <div class="navbar-wrapper">
+            <div class="navbar-inverse" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!-- Nav Starts -->
+                    <div class="navbar-collapse  collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/index">Home</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <!-- #Nav Ends -->
+                </div>
+            </div>
+        </div>
+        <!-- #Header Ends -->
+        <div id="map"></div>
+        <div id="info">
+            <p class="close" onclick="$('#info').hide();">X</p>
+            <p id="propInfo"></p>
+            <p id="graphHouse" style="width: 420px; height: 350px;"></p>
+            <p id="graphRent" style="width: 420px; height: 350px;"></p>
+            <p id="graph" style="width: 420px; height: 350px;"></p>
+        </div>
+        <div id="legend">
+            <p>
+                5 Bed+ :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"/>
+                4 Bed :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/ltblue-dot.png"/>
+                3 Bed :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png"/>
+                2 Bed :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png"/>
+                1 Bed :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"/>
+                Condo :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/pink-dot.png"/>
+                Single Family Res. :<img src="https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"/>
+            </p>
+        </div>
+        <script>
+            var map = null;
+            var data_iw = [];
+            var marker;
+            function initMap() {
+                $('#info').hide();
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 4,
+                    center: {lat: 39.18822, lng: -96.7444566}
+                });
+                if({{ list|safe }}) {
+                    var data = {{list|safe}};
+                    console.log(data)
+                    var count = Object.keys(data).length;
+                    console.log(count)
+                    for(var entry in data){
+                        (function () {
+                            var image = null;
+                            data_iw[entry] = data[entry]['County'] + ", " + data[entry]['Region'] + ", " + data[entry]['State'];
+                            if(data[entry]['Property'] == '5_bed_plus')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png';
+                            else if(data[entry]['Property'] == '4_bed')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/ltblue-dot.png';
+                            else if(data[entry]['Property'] == '3_bed')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png';
+                            else if(data[entry]['Property'] == '2_bed')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png';
+                            else if(data[entry]['Property'] == '1_bed')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png';
+                            else if(data[entry]['Property'] == 'condo')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/pink-dot.png';
+                            else if(data[entry]['Property'] == 'single')
+                                image = 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png';
+                            marker = new google.maps.Marker({
+                                position: data[entry]['location'],
+                                animation: google.maps.Animation.DROP,
+                                map: map,
+                                icon: image
+                            });
+                            var singleData = data[entry];
+                            marker.addListener('click', function () {
+                                showCard(singleData);
+                            });
+                        }());
+                    }
+                }
+            }
+            function showCard(myData) {
+                document.getElementById('propInfo').innerHTML = "<strong>" + myData['County'] + ", " + myData['Region'] + ", " + myData['State']+"</strong>";
+                drawHouseGraph(myData['medianHouseValue']);
+                drawRentGraph(myData['medianRentValue']);
+                drawGraph(myData['medianHouseToRentValue']);
+                $('#info').show();
+            }
+            function drawHouseGraph(graphData) {
+                var trace1 = {
+                    x: graphData[0], 
+                    y: graphData[1], 
+                    type: 'scatter'
+                };
+                var data = [trace1];
+                var layout = {
+                    title: 'Median Valuation Spread',
+                    xaxis: {
+                        title: 'Year'
+                    },
+                    yaxis: {
+                        title: 'Median Valuation'
+                    }
+                };
+                Plotly.newPlot('graphHouse', data, layout);
+            }
+            function drawRentGraph(graphData) {
+                var trace1 = {
+                    x: graphData[0], 
+                    y: graphData[1], 
+                    type: 'scatter'
+                };
+                var data = [trace1];
+                var layout = {
+                    title: 'Median Rent Spread',
+                    xaxis: {
+                        title: 'Year'
+                    },
+                    yaxis: {
+                        title: 'Median Rent'
+                    }
+                };
+                Plotly.newPlot('graphRent', data, layout);
+            }
+            function drawGraph(graphData) {
+                var trace1 = {
+                    x: graphData[0], 
+                    y: graphData[1], 
+                    type: 'scatter'
+                };
+                var data = [trace1];
+                var layout = {
+                    title: 'Median Valuation vs Rent Spread',
+                    xaxis: {
+                        title: 'Median Valuation'
+                    },
+                    yaxis: {
+                        title: 'Median Rent'
+                    }
+                };
+                Plotly.newPlot('graph', data, layout);
+            }
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtbuCnF0HqV7vbGVRWIZ2DC8cmGQIpY0g&callback=initMap">
+        </script>
+        <div class="banner-search">
+            <div class="container"> 
+                <!-- banner -->
+                <h3> Investment Details </h3>
+                <div class="searchbar">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6">
+                            <form action="/map" method="POST">
+                                {% csrf_token %}
+                                <input type="text" class="form-control" placeholder="Budget" name="budget">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-3 ">
+                                        <select class="form-control" name="state">
+                                            <option> Select State </option>
+                                            <option> ALL </option>
+                                            <option> AL </option>
+                                            <option> AK </option>
+                                            <option> AZ </option>
+                                            <option> AR </option>
+                                            <option> CA </option>
+                                            <option> CO </option>
+                                            <option> CT </option>
+                                            <option> DE </option>
+                                            <option> FL </option>
+                                            <option> GA </option>
+                                            <option> HI </option>
+                                            <option> ID </option>
+                                            <option> IL </option>
+                                            <option> IN </option>
+                                            <option> IA </option>
+                                            <option> KS </option>
+                                            <option> KY </option>
+                                            <option> LA </option>
+                                            <option> ME </option>
+                                            <option> MD </option>
+                                            <option> MA </option>
+                                            <option> MI </option>
+                                            <option> MN </option>
+                                            <option> MS </option>
+                                            <option> MO </option>
+                                            <option> MT </option>
+                                            <option> NE </option>
+                                            <option> NV </option>
+                                            <option> NH </option>
+                                            <option> NJ </option>
+                                            <option> NM </option>
+                                            <option> NY </option>
+                                            <option> NC </option>
+                                            <option> ND </option>
+                                            <option> OH </option>
+                                            <option> OK </option>
+                                            <option> OR </option>
+                                            <option> PA </option>
+                                            <option> RI </option>
+                                            <option> SC </option>
+                                            <option> SD </option>
+                                            <option> TN </option>
+                                            <option> TX </option>
+                                            <option> UT </option>
+                                            <option> VT </option>
+                                            <option> VA </option>
+                                            <option> WA </option>
+                                            <option> WV </option>
+                                            <option> WI </option>
+                                            <option> WY </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-4">
+                                        <select class="form-control" name="years">
+                                            <option>No of years</option>
+                                            <option> 1 </option>
+                                            <option> 2 </option>
+                                            <option> 3 </option>
+                                            <option> 4 </option>
+                                            <option> 5 </option>
+                                            <option> 6 </option>
+                                            <option> 7 </option>
+                                            <option> 8 </option>
+                                            <option> 9 </option>
+                                            <option> 10 </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-4">
+                                        <button class="btn btn-success"> Submit </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- banner -->
+        <div class="footer">
+            <div class="container">
+                <p class="copyright">Copyright 2017. All rights reserved.   </p>
+            </div>
+        </div>
+    </body>
+</html>

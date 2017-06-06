@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>P.A.I.S.A.</title>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="{% static 'images/mkr_Ud5_icon.ico' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/style.css' %}"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/script.js' %}"></script>
+    <!-- Owl stylesheet -->
+    <link rel="stylesheet" href="{% static 'assets/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/owl-carousel/owl.theme.css' %}">
+    <script src="{% static '/assets/owl-carousel/owl.carousel.js' %}"></script>
+    <!-- Owl stylesheet -->
+    <!-- slitslider -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/slitslider/css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/slitslider/css/custom.css' %}" />
+    <script type="text/javascript" src="{% static 'assets/slitslider/js/modernizr.custom.79639.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/slitslider/js/jquery.ba-cond.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/slitslider/js/jquery.slitslider.js' %}"></script>
+    <!-- slitslider -->
+  </head>
+  <body>
+    <!-- Header Starts -->
+    <div class="navbar-wrapper">
+      <div class="navbar-inverse" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <!-- Nav Starts -->
+          <div class="navbar-collapse  collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="/index">Home</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div>
+          <!-- #Nav Ends -->
+        </div>
+      </div>
+    </div>
+    <!-- #Header Ends -->
+    <div id="slider" class="sl-slider-wrapper">
+      <div class="sl-slider">
+        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+          <div class="sl-slide-inner">
+            <div class="bg-img bg-img-1"></div>
+          </div>
+        </div>
+        <div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+          <div class="sl-slide-inner">
+            <div class="bg-img bg-img-2"></div>
+          </div>
+        </div>
+        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+          <div class="sl-slide-inner">
+            <div class="bg-img bg-img-3"></div>
+          </div>
+        </div>
+        <div class="sl-slide" data-orientation="vertical" data-slice1-rotation="-5" data-slice2-rotation="25" data-slice1-scale="2" data-slice2-scale="1">
+          <div class="sl-slide-inner">
+            <div class="bg-img bg-img-4"></div>
+          </div>
+        </div>
+        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="10" data-slice1-scale="2" data-slice2-scale="1">
+          <div class="sl-slide-inner">
+            <div class="bg-img bg-img-5"></div>
+          </div>
+        </div>
+      </div>
+      <nav id="nav-dots" class="nav-dots">
+        <span class="nav-dot-current"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+      </nav>
+    </div>
+    <div class="banner-search">
+      <div class="container"> 
+        <!-- banner -->
+        <h3> Investment Details </h3>
+        <div class="searchbar">
+          <div class="row">
+            <div class="col-lg-6 col-sm-6">
+              <form action="/map" method="POST">
+              {% csrf_token %}
+                <input type="text" class="form-control" placeholder="Budget" name="budget">
+                <div class="row">
+                  <div class="col-lg-3 col-sm-3 ">
+                    <select class="form-control" name="state">
+                      <option> Select State </option>
+                      <option> ALL </option>
+                      <option> AL </option>
+                      <option> AK </option>
+                      <option> AZ </option>
+                      <option> AR </option>
+                      <option> CA </option>
+                      <option> CO </option>
+                      <option> CT </option>
+                      <option> DE </option>
+                      <option> FL </option>
+                      <option> GA </option>
+                      <option> HI </option>
+                      <option> ID </option>
+                      <option> IL </option>
+                      <option> IN </option>
+                      <option> IA </option>
+                      <option> KS </option>
+                      <option> KY </option>
+                      <option> LA </option>
+                      <option> ME </option>
+                      <option> MD </option>
+                      <option> MA </option>
+                      <option> MI </option>
+                      <option> MN </option>
+                      <option> MS </option>
+                      <option> MO </option>
+                      <option> MT </option>
+                      <option> NE </option>
+                      <option> NV </option>
+                      <option> NH </option>
+                      <option> NJ </option>
+                      <option> NM </option>
+                      <option> NY </option>
+                      <option> NC </option>
+                      <option> ND </option>
+                      <option> OH </option>
+                      <option> OK </option>
+                      <option> OR </option>
+                      <option> PA </option>
+                      <option> RI </option>
+                      <option> SC </option>
+                      <option> SD </option>
+                      <option> TN </option>
+                      <option> TX </option>
+                      <option> UT </option>
+                      <option> VT </option>
+                      <option> VA </option>
+                      <option> WA </option>
+                      <option> WV </option>
+                      <option> WI </option>
+                      <option> WY </option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 col-sm-4">
+                    <select class="form-control" name="years">
+                      <option>No of years</option>
+                      <option> 1 </option>
+                      <option> 2 </option>
+                      <option> 3 </option>
+                      <option> 4 </option>
+                      <option> 5 </option>
+                      <option> 6 </option>
+                      <option> 7 </option>
+                      <option> 8 </option>
+                      <option> 9 </option>
+                      <option> 10 </option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 col-sm-4">
+                    <button class="btn btn-success"> Submit </button>
+                  </div>
+                </div>
+              </form>          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- banner -->
+    <div class="footer">
+      <div class="container">
+        <p class="copyright">Copyright 2017. All rights reserved. </p>
+      </div>
+    </div>
+  </body>
+</html>
