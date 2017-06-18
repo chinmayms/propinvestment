@@ -1,3 +1,4 @@
-
+#Code to be ignored by git linguist
 templates/* linguist-vendored
 static/* linguist-vendored
+
